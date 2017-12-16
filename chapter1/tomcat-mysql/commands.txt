@@ -1,0 +1,14 @@
+kubectl create -f mysql-rc.yaml
+kubectl create -f mysql-svc.yaml
+kubectl create -f myweb-rc.yaml
+kubectl create -f myweb-svc.yaml
+
+kubectl get node
+kubectl get rc
+kubectl get pod
+kubectl get svc
+
+kubectl exec <pod> -- printenv | grep SERVICE
+kubectl describe node <node>
+kubectl describe pod <pod>
+kubectl scale rc <rc> --replicas=3
