@@ -25,3 +25,11 @@ kubectl scale rc mysql --replicas=1
 # Replica Set
 kubectl create -f myweb-rs.yaml
 
+# Deployment
+kubectl create -f myweb-deployment.yaml
+kubectl get deployment myweb
+# describe 用法：kubectl describe TYPE NAME_PREFIX
+kubectl describe deployment myweb
+kubectl describe rs myweb
+kubectl describe pod myweb
+
