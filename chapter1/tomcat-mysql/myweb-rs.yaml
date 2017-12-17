@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: myweb
+spec:
+  replicas: 1
+  selector:
+    matchExpressions:
+    - {key: app, operator: In, values: [myweb]}
+  template:
+    metadata:
+      labels:
+        app: myweb
+    spec:
+      containers:
+      - name: myweb
+        image: kubeguide/tomcat-app:v1
+        ports:
+        - containerPort: 8080

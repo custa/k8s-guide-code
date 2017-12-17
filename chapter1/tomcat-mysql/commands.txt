@@ -22,4 +22,6 @@ kubectl replace -f mysql-rc.yaml
 kubectl scale rc mysql --replicas=0
 kubectl scale rc mysql --replicas=1
 
+# Replica Set
+kubectl create -f myweb-rs.yaml
 
