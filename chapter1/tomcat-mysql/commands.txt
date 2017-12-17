@@ -9,6 +9,17 @@ kubectl get pod
 kubectl get svc
 
 kubectl exec <pod> -- printenv | grep SERVICE
+
 kubectl describe node <node>
+
 kubectl describe pod <pod>
+
+# 修改副本数量，实现pod动态伸缩
 kubectl scale rc <rc> --replicas=3
+
+# 更新 RC 中的 pod 配置：
+kubectl replace -f mysql-rc.yaml
+kubectl scale rc mysql --replicas=0
+kubectl scale rc mysql --replicas=1
+
+
