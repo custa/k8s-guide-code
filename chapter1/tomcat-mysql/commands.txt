@@ -33,3 +33,6 @@ kubectl describe deployment myweb
 kubectl describe rs myweb
 kubectl describe pod myweb
 
+# 获取服务对应的 endpoint
+kubectl get endpoints <service>
+
