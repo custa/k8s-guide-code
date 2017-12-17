@@ -19,3 +19,10 @@ spec:
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "123456"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 64M
+          limits:
+            cpu: 0.5
+            memory: 128Mi
