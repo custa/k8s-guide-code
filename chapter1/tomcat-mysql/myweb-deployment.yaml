@@ -12,8 +12,15 @@ spec:
       labels:
         app: myweb
     spec:
+      volumes:
+      - name: logs
+        hostPath:
+          path: /data/logs
       containers:
       - name: myweb
         image: kubeguide/tomcat-app:v1
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - mountPath: /usr/local/tomcat/logs
+          name: logs
