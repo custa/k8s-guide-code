@@ -2,3 +2,6 @@
 # 自定义列名进行输出
 kubectl get pod -o='custom-columns=Pod:.metadata.name,Images:.spec.containers[*].image'
 
+# 根据目录下所有.yaml、.yml、.json文件的定义进行创建操作：
+kubectl create -f .
+
