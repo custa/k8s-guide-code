@@ -36,3 +36,9 @@ kubectl describe pod myweb
 # 获取服务对应的 endpoint
 kubectl get endpoints <service>
 
+# 命名空间
+kubectl get ns
+kubectl create -f dev-ns.yaml
+kubectl --namespace=kube-system get node
+
+
