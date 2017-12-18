@@ -1,0 +1,4 @@
+
+# 自定义列名进行输出
+kubectl get pod -o='custom-columns=Pod:.metadata.name,Images:.spec.containers[*].image'
+
