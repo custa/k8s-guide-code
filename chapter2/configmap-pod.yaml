@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: configmap-env
+      image: busybox
+      command: [ "/bin/sh", "-c", "env | grep APP" ]
+      env:
+        - name: APPLOGLEVEL             # 定义环境变量名称
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-appconf   # 环境变量的值取自 ConfigMap configmap-appconf
+              key: apploglevel          # key 为 apploglevel 的 value
+    - name: configmap-mount
+      image: busybox
+      command: [ "/bin/sh", "-c", "while true; do date; ls -l /configfiles/appdatadir.conf; cat /configfiles/appdatadir.conf; sleep 3; done" ]
+      volumeMounts:
+        - name: appdatavol              # 引用的 volume 名
+          mountPath: /configfiles       # 挂载到容器内的目录
+  volumes:
+    - name: appdatavol                  # 定义 volume
+      configMap:
+        name: configmap-appconf         # 使用 ConfigMap configmap-appconf
+        items:
+          - key: appdatadir
+            path: appdatadir.conf       # value 挂载为 appdatadir.conf 文件
+  restartPolicy: Never
+

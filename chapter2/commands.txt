@@ -11,3 +11,18 @@ echo 'KUBELET_ARGS="${KUBELET_ARGS} --config=/etc/kubelet.d/"' >>/etc/kubernetes
 systemctl restart kubelet
 cp static-web.yaml /etc/kubelet.d/
 kubectl get pod
+
+# 创建 ConfigMap
+kubectl create -f configmap.yaml
+kubectl create configmap configmap-1 --from-file=configmap.yaml
+kubectl create configmap configmap-2 --from-literal="key2=value2"
+# 在容器中使用：1.环境变量方式;2.volume 挂载方式
+kubectl create -f configmap.yaml -f configmap-pod.yaml
+kubectl get pod --show-all
+kubectl logs configmap-pod -c configmap-env
+kubectl logs configmap-pod -c configmap-mount -f
+# 更新 ConfigMap
+kubectl replace -f configmap.yaml
+# 在容器中不是即刻生效？
+kubectl logs configmap-pod -c configmap-mount -f
+
