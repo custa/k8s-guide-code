@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: localredis
+  labels:
+    name: localredis
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      nodePort: 30003
+  selector:
+    name: localredis
