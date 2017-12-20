@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: webapp
+spec:
+  replicas: 2
+  selector:         # 可选，如果配置必须在 spec.template.metadata.labels 存在匹配项
+    app: webapp
+  template:
+    metadata:
+      name: webapp
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: tomcat
+          ports:
+            - containerPort: 8080

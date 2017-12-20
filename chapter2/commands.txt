@@ -48,3 +48,11 @@ kubectl get rc -o wide
 kubectl rolling-update redis-master-v2 --image=kubeguide/redis-master:notfound
 kubectl rolling-update redis-master-v2 --rollback
 
+# 使用 expose 创建服务
+kubectl create -f webapp-rc.yaml
+kubectl get rc -o wide
+kubectl get pod -o wide
+kubectl expose rc webapp
+kubectl get svc -o wide
+curl 10.254.143.245:8080
+
