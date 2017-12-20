@@ -32,3 +32,7 @@ kubectl logs restartpolicy -c running # 重启策略不会影响正在运行的�
 kubectl logs restartpolicy -c exit0
 kubectl logs restartpolicy -c exit255
 
+# DaemonSet
+kubectl create -f daemonset.yaml
+kubectl --namespace=kube-system get daemonset
+
