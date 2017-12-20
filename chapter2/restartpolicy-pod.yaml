@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restartpolicy
+spec:
+  containers:
+    - name: running
+      image: busybox
+      command: [ "/bin/sh", "-c", "date; while true; do sleep 3; date +'running %T'; done" ]
+    - name: exit0
+      image: busybox
+      command: [ "/bin/sh", "-c", "date; exit 0" ]
+    - name: exit255
+      image: busybox
+      command: [ "/bin/sh", "-c", "date; sleep 3; exit 255" ]
+  restartPolicy: OnFailure

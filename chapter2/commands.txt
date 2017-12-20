@@ -26,3 +26,9 @@ kubectl replace -f configmap.yaml
 # 在容器中不是即刻生效？
 kubectl logs configmap-pod -c configmap-mount -f
 
+# Restart Policy
+kubectl create -f restartpolicy-pod.yaml
+kubectl logs restartpolicy -c running # 重启策略不会影响正在运行的容器
+kubectl logs restartpolicy -c exit0
+kubectl logs restartpolicy -c exit255
+
