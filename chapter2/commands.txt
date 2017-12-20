@@ -36,3 +36,15 @@ kubectl logs restartpolicy -c exit255
 kubectl create -f daemonset.yaml
 kubectl --namespace=kube-system get daemonset
 
+# rolling-update
+kubectl create -f redis-master-rc.yaml
+kubectl get rc -o wide
+kubectl rolling-update redis-master -f redis-master-rc-v2.yaml
+kubectl get rc -o wide
+# 指定新镜像滚动升级，会给 RC 增加一个 key 为 “deployment” 的 Label
+kubectl rolling-update redis-master-v2 --image=kubeguide/redis-master:1.0
+kubectl get rc -o wide
+# 回滚
+kubectl rolling-update redis-master-v2 --image=kubeguide/redis-master:notfound
+kubectl rolling-update redis-master-v2 --rollback
+
