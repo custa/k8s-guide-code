@@ -56,3 +56,13 @@ kubectl expose rc webapp
 kubectl get svc -o wide
 curl 10.254.143.245:8080
 
+# skyDNS
+# 修改 API server 非安全监听地址为 0.0.0.0，允许从容器中访问
+cp -an /etc/kubernetes/apiserver /etc/kubernetes/apiserver.cyp
+sed -i "s|--insecure-bind-address=127.0.0.1|--insecure-bind-address=0.0.0.0|" /etc/kubernetes/apiserver
+systemctl restart kube-apiserver
+# 修改 kubelet 的集群 DNS 为 skyDNS 的 IP
+cp -an /etc/kubernetes/kubelet /etc/kubernetes/kubelet.cyp
+sed -ri 's|^KUBELET_ARGS="([^"]*)"|KUBELET_ARGS="\1 --cluster_dns=10.254.0.53 --cluster_domain=cluster.local"|' /etc/kubernetes/kubelet
+systemctl restart kubelet
+
