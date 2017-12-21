@@ -7,7 +7,7 @@ kubectl create -f .
 
 # 静态 Pod
 mkdir -p /etc/kubelet.d/
-echo 'KUBELET_ARGS="${KUBELET_ARGS} --config=/etc/kubelet.d/"' >>/etc/kubernetes/kubelet
+sed -ri 's|^KUBELET_ARGS="([^"]*)"|KUBELET_ARGS="\1 --config=/etc/kubelet.d/"|' /etc/kubernetes/kubelet
 systemctl restart kubelet
 cp static-web.yaml /etc/kubelet.d/
 kubectl get pod
