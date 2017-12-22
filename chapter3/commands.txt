@@ -7,3 +7,19 @@ curl 127.0.0.1:8001/api/v1/replicationcontrollers # 会被拒绝
 kubectl get svc
 curl -k --resolve kubernetes:443:10.254.0.1 https://kubernetes/api
 
+# API 版本
+curl 127.0.0.1:8001/api/
+
+# 支持的资源对象类型
+curl 127.0.0.1:8001/api/v1
+
+# Proxy API -- 将 REST 请求转发到 Work Node 上，注意后面要跟 /
+curl 127.0.0.1:8080/api/v1/proxy/nodes/127.0.0.1/pods/
+curl 127.0.0.1:8080/api/v1/proxy/nodes/127.0.0.1/stats/
+curl 127.0.0.1:8080/api/v1/proxy/nodes/127.0.0.1/spec/
+
+# Proxy API
+# 访问 Pod 的服务接口
+kubectl create -f chapter2/static-web.yaml
+curl 127.0.0.1:8080/api/v1/proxy/namespaces/default/pods/static-web/
+
