@@ -3,3 +3,7 @@ kubectl proxy --reject-paths="^/api/v1/replicationcontrollers" --port=8001 --v=2
 curl 127.0.0.1:8001/api/v1/pods
 curl 127.0.0.1:8001/api/v1/replicationcontrollers # 会被拒绝
 
+# kubernetes service
+kubectl get svc
+curl -k --resolve kubernetes:443:10.254.0.1 https://kubernetes/api
+
