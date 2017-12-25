@@ -23,3 +23,6 @@ curl 127.0.0.1:8080/api/v1/proxy/nodes/127.0.0.1/spec/
 kubectl create -f chapter2/static-web.yaml
 curl 127.0.0.1:8080/api/v1/proxy/namespaces/default/pods/static-web/
 
+# cAdvisor 作为 kubelet 的一部分功能，可以通过端口映射到宿主机，再在宿主机上的浏览器访问
+curl -L http://127.0.0.1:4194
+
