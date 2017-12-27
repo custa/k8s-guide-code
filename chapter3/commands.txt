@@ -26,3 +26,16 @@ curl 127.0.0.1:8080/api/v1/proxy/namespaces/default/pods/static-web/
 # cAdvisor 作为 kubelet 的一部分功能，可以通过端口映射到宿主机，再在宿主机上的浏览器访问
 curl -L http://127.0.0.1:4194
 
+# Service Account
+sudo openssl genrsa -out /etc/kubernetes/ca.key 4096
+sudo openssl req -x509 -new -nodes -key /etc/kubernetes/ca.key -subj "/CN=yourcompany.com" -days 36500 -out /etc/kubernetes/ca.crt
+sudo cp -an /etc/kubernetes/controller-manager /etc/kubernetes/controller-manager.cyp
+sudo sed -ri 's|^KUBE_CONTROLLER_MANAGER_ARGS="([^"]*)"|KUBE_CONTROLLER_MANAGER_ARGS="\1 --root-ca-file=/etc/kubernetes/ca.crt"|' /etc/kubernetes/controller-manager
+sudo systemctl restart kube-controller-manager
+# 启动 Pod，查看 Pod 容器中的文件
+kubectl run -i -t centos --image=centos --restart=Never
+cat /run/secrets/kubernetes.io/serviceaccount/token   # 使用 kube-controller-manager 参数 --service-account-private-key-file=/etc/kubernetes/serviceaccount.key 签名
+cat /run/secrets/kubernetes.io/serviceaccount/ca.crt  # 来自 kube-controller-manager 参数 --root-ca-file=/etc/kubernetes/ca.crt
+# 这里不能使用 curl --cacert /run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api，因为 kube-apiserver 的证书不是用 /etc/kubernetes/ca.crt 签名
+curl -k https://kubernetes/api
+
