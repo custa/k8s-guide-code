@@ -39,3 +39,9 @@ cat /run/secrets/kubernetes.io/serviceaccount/ca.crt  # 来自 kube-controller-m
 # 这里不能使用 curl --cacert /run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes/api，因为 kube-apiserver 的证书不是用 /etc/kubernetes/ca.crt 签名
 curl -k https://kubernetes/api
 
+# Secret
+kubectl create -f secret.yaml
+kubectl create -f use-secret-pod.yaml
+kubectl exec use-secret ls /etc/foo/
+kubectl exec use-secret cat /etc/foo/username
+
