@@ -12,3 +12,7 @@ kubectl config use-context context-dev
 kubectl config current-context
 kubectl --namespace=namespace-dev get pod
 
+# 计算资源管理 Compute Resource
+kubectl create -f web-pod.yaml
+kubectl describe pod web
+
