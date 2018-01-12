@@ -1,0 +1,14 @@
+# 创建命名空间
+kubectl create namespace namespace-dev
+# 创建集群
+kubectl config set-cluster kubernetes-cluster --server=http://127.0.0.1:8080
+# 定义 Context
+kubectl config set-context context-dev --namespace=namespace-dev --cluster=kubernetes-cluster --user=user-dev
+# 查看已定义 Context
+kubectl config view
+cat ~/.kube/config
+# 设置当前 Context
+kubectl config use-context context-dev
+kubectl config current-context
+kubectl --namespace=namespace-dev get pod
+
