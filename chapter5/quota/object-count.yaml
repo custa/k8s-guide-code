@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: object-count
+spec:
+  hard:
+    persistentvolumeclaims: 2
+    services.loadbalancers: 2
+    services.nodeports: 0
+    pods: 4

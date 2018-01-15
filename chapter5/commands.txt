@@ -23,3 +23,36 @@ kubectl --namespace=limitrange-example describe limitrange mylimits
 kubectl --namespace=limitrange-example run nginx --image=nginx
 kubectl --namespace=limitrange-example describe pod nginx
 kubectl --namespace=limitrange-example create -f invalid-pod.yaml
+
+# 资源配额管理
+kubectl create namespace quota-example
+kubectl --namespace=quota-example create -f quota/compute-resource.yaml -f quota/object-count.yaml
+kubectl --namespace=quota-example describe quota
+# 创建 Pod 未指定计算资源配置的 Deployment
+kubectl --namespace=quota-example run nginx --image=nginx --replicas=1
+# Pod 没有创建成功
+kubectl --namespace=quota-example get pod
+# 查看 ReplicaSet 可以找到出错原因 -- Pod 未指定计算资源配置
+kubectl --namespace=quota-example describe deployment nginx
+kubectl --namespace=quota-example describe rs
+# 创建资源配置范围管理，提供默认计算资源配置
+kubectl --namespace=quota-example create -f quota/limits.yaml
+kubectl --namespace=quota-example describe limitrange
+# 等待一会，可以看到 Pod 创建成功
+kubectl --namespace=quota-example get pod
+kubectl --namespace=quota-example describe rs
+# 创建的 Pod 消耗掉一些资源配额
+kubectl --namespace=quota-example describe quota
+
+# 资源配额的作用域
+kubectl create namespace quota-scopes
+kubectl --namespace=quota-scopes create -f quota/best-effort.yaml -f quota/not-best-effort.yaml
+kubectl --namespace=quota-scopes describe quota
+# 没有指定计算资源配置，Pod 的 QoS 级别属于 BestEffort
+kubectl --namespace=quota-scopes run best-effort-nginx --image=nginx --replicas=8
+# 指定了计算资源配置，Requests 小于 Limits，Pod 的 QoS 级别属于 Burstable
+kubectl --namespace=quota-scopes run not-best-effort-nginx --image=nginx \
+--replicas=2 --requests=cpu=100m,memory=256Mi --limits=cpu=200m,memory=512Mi
+kubectl --namespace=quota-scopes get pod
+kubectl --namespace=quota-scopes describe quota
+
